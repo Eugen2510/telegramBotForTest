@@ -5,6 +5,7 @@ import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingC
 import org.telegram.telegrambots.meta.api.objects.Update;
 import telegram.handlers.BankAnswer;
 import telegram.handlers.CurrencyAnswer;
+import telegram.handlers.NumberOfDecimalPlacesAnswer;
 import telegram.handlers.SettingsAnswer;
 import telegram.commands.StartCommand;
 import telegram.customer.User;
@@ -52,6 +53,15 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
 
             if (input.equals("currency") || input.equals("USD") || input.equals("EUR")){
                 sendApiMethodAsync(CurrencyAnswer.generateAnswer(user, input));
+            }
+
+            if (input.equals("numOfDecimal")
+                    || input.equals("1")
+                    || input.equals("2")
+                    ||  input.equals("3")
+                    ||  input.equals("4"))
+            {
+                sendApiMethodAsync(NumberOfDecimalPlacesAnswer.generateAnswer(user, input));
             }
 
         }

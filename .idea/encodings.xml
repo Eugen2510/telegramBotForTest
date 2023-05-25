@@ -3,10 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/main/java/telegram/MyCurrencyTelegramBot.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/telegram/handlers/BankAnswer.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/main/java/telegram/handlers/BankAnswer.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/telegram/handlers/CurrencyAnswer.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/main/java/telegram/handlers/CurrencyAnswer.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/main/java/telegram/handlers/SettingsAnswer.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/telegram/handlers/NumberOfDecimalPlacesAnswer.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/java/telegram/handlers/SettingsAnswer.java" charset="windows-1251" />
   </component>
 </project>

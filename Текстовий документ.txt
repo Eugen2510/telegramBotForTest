@@ -1,0 +1,8 @@
+классы:
+- MyCurrencyTelegramBot
+- SettingsAnswer
+- BankAnswer
+- !CurrencyAnswer! - на это пожалуйста обрати внимание, я до 4 утра думал как реализовать, но так ничего и не придумал, вышло раково((
+- User
+- MessageCreator
+- KeyboardCreator
