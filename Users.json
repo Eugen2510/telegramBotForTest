@@ -1,0 +1,10 @@
+[
+  {
+    "id": 555696079,
+    "bank": "NBU",
+    "currencyUSD": "USD",
+    "currencyEUR": "EUR",
+    "numOfDecimal": 4,
+    "notificationTime": "10"
+  }
+]

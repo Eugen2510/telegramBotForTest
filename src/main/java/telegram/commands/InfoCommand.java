@@ -1,7 +1,6 @@
 package telegram.commands;
 
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -21,7 +20,9 @@ public class InfoCommand extends BotCommand {
                 ", або введіть /start з клавіатури. Ви можете обрати банк для розрахунку" +
                 "курсів, валюту, зручне для вас округлення, а також час для отримання повідомлень." +
                 "\nНалаштування за замовчанням: \nбанк - ПриватБанк\nвалюта - USD" +
-                "\nокруглення до 2 знаків після коми.\nБережіть себе!\nБажаємо перемоги!!!.";
+                "\nокруглення - до 2 знаків після коми.\nДля отримання інформації відповідно " +
+                "ваших налаштуваннь натисніть /get з головного меню, або введіть /get з клавіатури" +
+                "або натисніть на кнопку \"отримати інфо\"\nБережіть себе!\nБажаємо перемоги!!!.";
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setText(text);

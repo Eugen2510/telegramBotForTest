@@ -1,27 +1,36 @@
 package telegram;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import telegram.commands.GetCurrencyInfo;
 import telegram.commands.InfoCommand;
 import telegram.handlers.*;
 import telegram.commands.StartCommand;
 import telegram.customer.User;
 import telegram.customer.UserStateSaver;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
-    Map<Long, User> users = new ConcurrentHashMap<>();
+    private Map<Long, User> users = new ConcurrentHashMap<>();
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     User user = new User();
-    MyCurrencyTelegramBot() {
+    public MyCurrencyTelegramBot() {
 
         register(new StartCommand());
         register(new InfoCommand());
+        register(new GetCurrencyInfo());
     }
     @Override
     public String getBotUsername() {
@@ -34,6 +43,10 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
         return BotConstants.BOT_TOKEN;
     }
 
+    public Map<Long, User> getUsers() {
+        return users;
+    }
+
     @Override
     public void processNonCommandUpdate(Update update) {
 
@@ -44,6 +57,7 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
                 users.put(userId, new User());
             }
             user = users.get(userId);
+            users.put(userId, user);
             String input = update.getCallbackQuery().getData();
             user.setId(userId);
             System.out.println(update.getCallbackQuery().getData());
@@ -86,7 +100,15 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
                 sendApiMethodAsync(message);
             }
 
-
+            try {
+                FileWriter fw = new FileWriter("Users.json");
+                Collection<User> values = users.values();
+                String json = gson.toJson(values);
+                fw.write(json);
+                fw.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
         }
 
