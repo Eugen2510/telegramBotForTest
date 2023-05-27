@@ -51,8 +51,4 @@ public class KeyboardCreator {
         return keyboardRow;
     }
 
-    public  static String[] echo (String ... strings){
-        return strings;
-    }
-
 }

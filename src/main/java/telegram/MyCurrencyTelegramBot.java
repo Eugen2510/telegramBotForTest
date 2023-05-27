@@ -3,6 +3,7 @@ package telegram;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -14,8 +15,11 @@ import telegram.commands.StartCommand;
 import telegram.customer.User;
 import telegram.customer.UserStateSaver;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +30,32 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
     private Map<Long, User> users = new ConcurrentHashMap<>();
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     User user = new User();
+    FileReader fileReader;
     public MyCurrencyTelegramBot() {
 
         register(new StartCommand());
         register(new InfoCommand());
         register(new GetCurrencyInfo());
+
+        StringBuilder json = new StringBuilder();
+        try {
+            fileReader = new FileReader("Users.json");
+            int i;
+            while ((i = fileReader.read()) != -1)
+                json.append((char) i);
+            fileReader.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String usersString = json.toString();
+        Type type = TypeToken.getParameterized(List.class, telegram.customer.User.class).getType();
+        List<telegram.customer.User> users = new Gson().fromJson(usersString,type);
+        for (int i = 0; i < users.size(); i++){
+            this.users.put(users.get(i).getId(), users.get(i));
+        }
+
     }
     @Override
     public String getBotUsername() {
@@ -56,6 +81,7 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
             if(users.get(userId) == null){
                 users.put(userId, new User());
             }
+
             user = users.get(userId);
             users.put(userId, user);
             String input = update.getCallbackQuery().getData();
