@@ -2,9 +2,13 @@ package telegram.button_utils;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class KeyboardCreator {
 
@@ -33,4 +37,22 @@ public class KeyboardCreator {
                 .keyboard(keyboard)
                 .build();
     }
+
+    public static KeyboardRow keyboardRowCreator(){
+        KeyboardRow keyboardRow = new KeyboardRow();
+        IntStream.range(9, 19)
+                .mapToObj(String::valueOf)
+                .map(s -> KeyboardButton
+                        .builder()
+                        .text(s)
+                        .build())
+                .forEach(keyboardRow::add);
+
+        return keyboardRow;
+    }
+
+    public  static String[] echo (String ... strings){
+        return strings;
+    }
+
 }

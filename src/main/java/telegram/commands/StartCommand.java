@@ -24,10 +24,10 @@ public class StartCommand extends BotCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
 
-        String text = "Ласкаво просимо. Цей бот допоможе відслідковувати актуальні курси валют";
+        String text = "Цей бот допоможе Вам отримати актуальні курси валют";
 
         SendMessage message = new SendMessage();
-        message.setText(new String(text.getBytes(), StandardCharsets.UTF_8));
+        message.setText(text);
 
         message.setChatId(Long.toString(chat.getId()));
 
@@ -57,7 +57,7 @@ public class StartCommand extends BotCommand {
     public static InlineKeyboardButton createButton(String text, String callBackData) {
         return InlineKeyboardButton
                 .builder()
-                .text(new String(text.getBytes(), StandardCharsets.UTF_8))
+                .text(text)
                 .callbackData(callBackData)
                 .build();
 

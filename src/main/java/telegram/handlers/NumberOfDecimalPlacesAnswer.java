@@ -9,14 +9,12 @@ import telegram.customer.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
 
 public class NumberOfDecimalPlacesAnswer {
     public static SendMessage generateAnswer(User user, String input){
         List<List<InlineKeyboardButton>> collect = new ArrayList<>();
-
 
         try{
             int i = Integer.parseInt(input);
@@ -26,20 +24,20 @@ public class NumberOfDecimalPlacesAnswer {
 
         }
 
-        IntStream.range(1, 5)
+        IntStream.range(2, 5)
                 .mapToObj(i -> i == user.getNumOfDecimal()
-                        ? "<" + i + ">"
+                        ? ">> " + i + " <<"
                         : String.valueOf(i))
-                .map(it -> KeyboardCreator.createButton(it, it.replaceAll("[<>]", "")))
+                .map(st -> KeyboardCreator.createButton(st, st.replaceAll("[< >]", "")))
                 .forEach(collect::add);
 
-        List<InlineKeyboardButton> backToSettingsButton = KeyboardCreator.createButton("Повернутися до налаштувань", "backToSettings");
+        List<InlineKeyboardButton> backToSettingsButton = KeyboardCreator.createButton("РџРѕРІРµСЂРЅСѓС‚РёСЃСЏ РґРѕ РЅР°Р»Р°С€С‚СѓРІР°РЅСЊ", "backToSettings");
         collect.add(backToSettingsButton);
 
 
         InlineKeyboardMarkup keyboard = KeyboardCreator.createKeyboard(collect);
 
-        SendMessage message = MessageCreator.createMessageWithButton(keyboard, "Оберіть кількість знаків після коми");
+        SendMessage message = MessageCreator.createMessageWithButton(keyboard, "РћР±РµСЂС–С‚СЊ РєС–Р»СЊРєС–СЃС‚СЊ Р·РЅР°РєС–РІ РїС–СЃР»СЏ РєРѕРјРё");
         message.setChatId(user.getId());
         return message;
     }

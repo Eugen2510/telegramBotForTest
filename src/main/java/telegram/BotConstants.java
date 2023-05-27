@@ -1,6 +1,6 @@
 package telegram;
 
 public class BotConstants {
-    public static  final String BOT_TOKEN = "6073097963:AAGMkx-520xCycl5HOEma0R_fQv5rS3urWU";
-    public static  final String BOT_NAME = "t.me/My_test_currency_bot";
+    public static  final String BOT_TOKEN = "5673393468:AAHjatG6MgfwVSwwoXMSIHguNO6vRLg_cJM";
+    public static  final String BOT_NAME = "t.me/My_test_new_currency_bot";
 }

@@ -14,16 +14,16 @@ import java.util.stream.Stream;
 public class BankAnswer {
     public static SendMessage generateAnswer(User user){
         List<List<InlineKeyboardButton>> collect = Stream.of("NBU", "PrivatBank", "MonoBank")
-                .map(s -> s.equals(user.getBank()) ? "<" + s + ">" : s)
-                .map(s -> KeyboardCreator.createButton(s, s.replaceAll("\\![A-Za-z]", "")))
+                .map(s -> s.equals(user.getBank()) ? ">>" + s + "<<" : s)
+                .map(s -> KeyboardCreator.createButton(s, s.replaceAll("[<>]", "")))
                 .collect(Collectors.toList());
 
-        List<InlineKeyboardButton> backToSettingsButton = KeyboardCreator.createButton("Повернутися до налаштувань", "backToSettings");
+        List<InlineKeyboardButton> backToSettingsButton = KeyboardCreator.createButton("РџРѕРІРµСЂРЅСѓС‚РёСЃСЏ РґРѕ РЅР°Р»Р°С€С‚СѓРІР°РЅСЊ", "backToSettings");
 
         collect.add(backToSettingsButton);
         InlineKeyboardMarkup banks = KeyboardCreator.createKeyboard(collect);
 
-        SendMessage bankMessage = MessageCreator.createMessageWithButton(banks, "Оберіть банк");
+        SendMessage bankMessage = MessageCreator.createMessageWithButton(banks, "РћР±РµСЂС–С‚СЊ Р±Р°РЅРє");
         bankMessage.setChatId(user.getId());
 
         return bankMessage;

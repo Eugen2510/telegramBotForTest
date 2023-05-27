@@ -14,37 +14,37 @@ import java.util.List;
 
 public class CurrencyAnswer {
     public static SendMessage generateAnswer(User user, String input){
-        String usd = user.getCurrencyUSD() == null ? Currency.USD.name() : "<" +Currency.USD.name() +">";
-        String eur = user.getCurrencyEUR() == null ? Currency.EUR.name() : "<" +Currency.EUR.name() +">";
+        String usd = user.getCurrencyUSD() == null ? Currency.USD.name() : ">>" +Currency.USD.name() +"<<";
+        String eur = user.getCurrencyEUR() == null ? Currency.EUR.name() : ">>" +Currency.EUR.name() +"<<";
         List<InlineKeyboardButton> usdButton = KeyboardCreator.createButton(usd, usd.replaceAll("[<>]", ""));
         List<InlineKeyboardButton> eurButton = KeyboardCreator.createButton(eur, eur.replaceAll("[<>]", ""));
-        List<InlineKeyboardButton> backToSettingsButton = KeyboardCreator.createButton("Повернутися до налаштувань", "backToSettings");
+        List<InlineKeyboardButton> backToSettingsButton = KeyboardCreator.createButton("РџРѕРІРµСЂРЅСѓС‚РёСЃСЏ РґРѕ РЅР°Р»Р°С€С‚СѓРІР°РЅСЊ", "backToSettings");
 
 
 
         if(user.getCurrencyUSD() != null && input.equals(Currency.USD.name())){
             usdButton = KeyboardCreator.createButton(input, input);
-            eurButton = KeyboardCreator.createButton("<" + Currency.EUR + ">" , Currency.EUR.name());
+            eurButton = KeyboardCreator.createButton(">>" + Currency.EUR + "<<" , Currency.EUR.name());
             user.setCurrencyUSD(null);
             user.setCurrencyEUR(Currency.EUR);
         }
         else if (user.getCurrencyUSD() == null && input.equals(Currency.USD.name())) {
-            usdButton = KeyboardCreator.createButton("<" + Currency.USD + ">", Currency.USD.name());
+            usdButton = KeyboardCreator.createButton(">>" + Currency.USD + "<<", Currency.USD.name());
             user.setCurrencyUSD(Currency.USD);
         }
         else if (user.getCurrencyEUR() != null && input.equals(Currency.EUR.name())){
-            usdButton = KeyboardCreator.createButton("<" + Currency.USD + ">" , Currency.USD.name());
+            usdButton = KeyboardCreator.createButton(">>" + Currency.USD + "<<" , Currency.USD.name());
             eurButton = KeyboardCreator.createButton(input, input);
             user.setCurrencyEUR(null);
             user.setCurrencyUSD(Currency.USD);
         }
         else if (user.getCurrencyEUR() == null && input.equals(Currency.EUR.name())) {
-            eurButton = KeyboardCreator.createButton("<" + Currency.EUR + ">", Currency.EUR.name());
+            eurButton = KeyboardCreator.createButton(">>" + Currency.EUR + "<<", Currency.EUR.name());
             user.setCurrencyEUR(Currency.EUR);
         }
 
         InlineKeyboardMarkup keyboard = KeyboardCreator.createKeyboard(usdButton, eurButton, backToSettingsButton);
-        SendMessage currencyMessage = MessageCreator.createMessageWithButton(keyboard, "Оберіть валюту");
+        SendMessage currencyMessage = MessageCreator.createMessageWithButton(keyboard, "РћР±РµСЂС–С‚СЊ РІР°Р»СЋС‚Сѓ");
         currencyMessage.setChatId(user.getId());
         return currencyMessage;
 

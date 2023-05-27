@@ -13,4 +13,10 @@ public class MessageCreator {
         sendMessage.setReplyMarkup(buttons);
         return sendMessage;
     }
+
+    public static SendMessage createTextMessage(String text){
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText(new String(text.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8));
+        return sendMessage;
+    }
 }

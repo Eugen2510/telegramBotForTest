@@ -10,10 +10,10 @@ import java.util.List;
 
 public class SettingsAnswer {
     public static SendMessage generateAnswer(long userId){
-        List<InlineKeyboardButton> bankButton = KeyboardCreator.createButton("Банк", "bank");
-        List<InlineKeyboardButton> currencyButton = KeyboardCreator.createButton("Валюта", "currency");
-        List<InlineKeyboardButton> decimalButton = KeyboardCreator.createButton("Кількість знаків після коми", "numOfDecimal");
-        List<InlineKeyboardButton> timeButton = KeyboardCreator.createButton("Час оповіщень", "notificationTime");
+        List<InlineKeyboardButton> bankButton = KeyboardCreator.createButton("Р‘Р°РЅРє", "bank");
+        List<InlineKeyboardButton> currencyButton = KeyboardCreator.createButton("Р’Р°Р»СЋС‚Р°", "currency");
+        List<InlineKeyboardButton> decimalButton = KeyboardCreator.createButton("РљС–Р»СЊРєС–СЃС‚СЊ Р·РЅР°РєС–РІ РїС–СЃР»СЏ РєРѕРјРё", "numOfDecimal");
+        List<InlineKeyboardButton> timeButton = KeyboardCreator.createButton("Р§Р°СЃ РѕРїРѕРІС–С‰РµРЅСЊ", "notificationTime");
 
         InlineKeyboardMarkup keyboard =
                 KeyboardCreator.createKeyboard(bankButton,
@@ -21,7 +21,7 @@ public class SettingsAnswer {
                         decimalButton,
                         timeButton);
 
-        SendMessage settingsMessage = MessageCreator.createMessageWithButton(keyboard, "Налаштування");
+        SendMessage settingsMessage = MessageCreator.createMessageWithButton(keyboard, "РќР°Р»Р°С€С‚СѓРІР°РЅРЅСЏ");
         settingsMessage.setChatId(userId);
         return settingsMessage;
     }

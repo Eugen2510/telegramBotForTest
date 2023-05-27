@@ -10,6 +10,7 @@ public class User {
     private Currency currencyUSD;
     private Currency currencyEUR;
     private int numOfDecimal;
+    private String notificationTime;
 
     public User (){
         bank = "MonoBank";
