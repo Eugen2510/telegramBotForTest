@@ -22,7 +22,6 @@ public class MonoBankCurrencyService implements CurrencyService {
 
     private void getExchangeRates(){
         localDateTimePrevRequest = LocalDateTime.now();
-
         String rates;
         try {
             rates = Jsoup.connect(BankAPI.MONO)

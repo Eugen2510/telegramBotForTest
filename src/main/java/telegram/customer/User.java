@@ -16,5 +16,6 @@ public class User {
         bank = "MonoBank";
         currencyUSD = Currency.USD;
         numOfDecimal = 2;
+        notificationTime = "9";
     }
 }

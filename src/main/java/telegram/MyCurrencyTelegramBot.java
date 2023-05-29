@@ -1,9 +1,5 @@
 package telegram;
 
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -14,47 +10,30 @@ import telegram.handlers.*;
 import telegram.commands.StartCommand;
 import telegram.customer.User;
 import telegram.customer.UserStateSaver;
+import telegram.schedule.ScheduledMessagesSender;
+import telegram.user_data.UsersDataGetter;
+import telegram.user_data.UsersDataSaver;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
 
 
 public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
-    private Map<Long, User> users = new ConcurrentHashMap<>();
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    User user = new User();
-    FileReader fileReader;
+    private final static Map<Long, User> users = UsersDataGetter.getUsers("Users.json");
+
+    User user;
+
     public MyCurrencyTelegramBot() {
 
         register(new StartCommand());
         register(new InfoCommand());
         register(new GetCurrencyInfo());
 
-        StringBuilder json = new StringBuilder();
-        try {
-            fileReader = new FileReader("Users.json");
-            int i;
-            while ((i = fileReader.read()) != -1)
-                json.append((char) i);
-            fileReader.close();
+        Thread sendMessage = new Thread(() -> ScheduledMessagesSender.runSending(users,this));
+        sendMessage.start();
+        //не работает
+        Runtime.getRuntime().addShutdownHook(new Thread(this::saveData));
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        String usersString = json.toString();
-        Type type = TypeToken.getParameterized(List.class, telegram.customer.User.class).getType();
-        List<telegram.customer.User> users = new Gson().fromJson(usersString,type);
-        for (int i = 0; i < users.size(); i++){
-            this.users.put(users.get(i).getId(), users.get(i));
-        }
 
     }
     @Override
@@ -68,22 +47,29 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
         return BotConstants.BOT_TOKEN;
     }
 
-    public Map<Long, User> getUsers() {
+    public static Map<Long, User> getUsers() {
         return users;
     }
 
     @Override
     public void processNonCommandUpdate(Update update) {
 
-        System.out.println("user.getId() = " + user.getId());
-        if (update.hasCallbackQuery()){
-            long userId = update.getCallbackQuery().getFrom().getId();
+        long userId =0;
+        if (update.hasCallbackQuery() || update.hasMessage()){
+            userId = update.hasCallbackQuery() ?
+                    update.getCallbackQuery().getFrom().getId()
+                    : update.getMessage().getFrom().getId();
             if(users.get(userId) == null){
-                users.put(userId, new User());
+                user = new User();
+                user.setId(userId);
+                users.put(userId, user);
             }
-
             user = users.get(userId);
-            users.put(userId, user);
+            UsersDataSaver.saveUsers("Users.json", users);
+        }
+
+        if (update.hasCallbackQuery()){
+
             String input = update.getCallbackQuery().getData();
             user.setId(userId);
             System.out.println(update.getCallbackQuery().getData());
@@ -126,15 +112,7 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
                 sendApiMethodAsync(message);
             }
 
-            try {
-                FileWriter fw = new FileWriter("Users.json");
-                Collection<User> values = users.values();
-                String json = gson.toJson(values);
-                fw.write(json);
-                fw.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
 
         }
 
@@ -143,7 +121,10 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
         }
 
 
+    }
 
+    private void saveData(){
+        UsersDataSaver.saveUsers("Users.json", users);
     }
 
 }

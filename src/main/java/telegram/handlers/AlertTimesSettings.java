@@ -1,7 +1,6 @@
 package telegram.handlers;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -15,13 +14,19 @@ public class AlertTimesSettings {
         List<KeyboardRow> keyboards = new ArrayList<>();
 
         for (int i = 9; ; ) {
-            int end = ((i + 4) > 19) ? (i + (19 - i)) : (i + 4);
+            int end = ((i + 3) > 19) ? (i + (19 - i)) : (i + 3);
             keyboards.add(createKeyboard(i, end));
             i = end;
             if(end == 19) {
                 break;
             }
         }
+
+        KeyboardButton stopMessageButton = KeyboardButton
+                .builder()
+                .text("Припинити сопіщення.")
+                .build();
+        keyboards.get(keyboards.size()-1).add(stopMessageButton);
 
         ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup();
         keyboard.setOneTimeKeyboard(true);

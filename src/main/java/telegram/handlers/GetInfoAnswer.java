@@ -16,7 +16,6 @@ public class GetInfoAnswer {
         Currency currencyUSD = user.getCurrencyUSD();
         Currency currencyEUR = user.getCurrencyEUR();
         int numOfDecimal = user.getNumOfDecimal();
-        String notificationTime = user.getNotificationTime();
 
         SendMessage message = new SendMessage();
         message.setChatId(id);
@@ -27,7 +26,7 @@ public class GetInfoAnswer {
                 ? new PrivatBankCurrencyService()
                 : new MonoBankCurrencyService();
 
-        String forOneCurrency = "";
+        String forOneCurrency;
         if (currencyEUR == null || currencyUSD == null){
             Currency notNullCurrency = currencyEUR == null
                     ? currencyUSD
@@ -37,11 +36,11 @@ public class GetInfoAnswer {
             forOneCurrency = bank + ":\nКурс продажу "
                     + notNullCurrency.name()
                     + "/UAH => "
-                    + Math.round(rateBuy * Math.pow(10, numOfDecimal - 1))/Math.pow(10, numOfDecimal - 1)
+                    + Math.round(rateBuy * Math.pow(10, numOfDecimal))/Math.pow(10, numOfDecimal)
                     + "\nКурс купівлі "
                     + notNullCurrency.name()
                     + "/UAH => "
-                    + Math.round(rateSell * Math.pow(10, numOfDecimal - 1))/Math.pow(10, numOfDecimal - 1);
+                    + Math.round(rateSell * Math.pow(10, numOfDecimal))/Math.pow(10, numOfDecimal);
             message.setText(forOneCurrency);
             return message;
         }
@@ -53,19 +52,19 @@ public class GetInfoAnswer {
         String forTwoCurrency =bank + ":\nКурс продажу "
                 + currencyUSD.name()
                 + "/UAH => "
-                + Math.round(rateBuyUsd * Math.pow(10, numOfDecimal - 1))/Math.pow(10, numOfDecimal - 1)
+                + Math.round(rateBuyUsd * Math.pow(10, numOfDecimal))/Math.pow(10, numOfDecimal)
                 + "\nКурс купівлі "
                 + currencyUSD.name()
                 + "/UAH => "
-                + Math.round(rateSellUsd * Math.pow(10, numOfDecimal - 1))/Math.pow(10, numOfDecimal - 1)
+                + Math.round(rateSellUsd * Math.pow(10, numOfDecimal))/Math.pow(10, numOfDecimal)
                 +"\n\nКурс продажу "
                 + currencyEUR.name()
                 + "/UAH => "
-                + Math.round(rateBuyEur * Math.pow(10, numOfDecimal - 1))/Math.pow(10, numOfDecimal - 1)
+                + Math.round(rateBuyEur * Math.pow(10, numOfDecimal))/Math.pow(10, numOfDecimal)
                 + "\nКурс купівлі "
                 + currencyEUR.name()
                 + "/UAH => "
-                + Math.round(rateSellEur * Math.pow(10, numOfDecimal - 1))/Math.pow(10, numOfDecimal - 1)
+                + Math.round(rateSellEur * Math.pow(10, numOfDecimal))/Math.pow(10, numOfDecimal)
                 ;
         message.setText(forTwoCurrency);
         return message;
