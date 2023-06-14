@@ -12,12 +12,10 @@ import java.util.Map;
 public class UsersDataSaver {
     public static void saveUsers(String filePath, Map<Long, User> users){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        try {
-            FileWriter fw = new FileWriter(filePath);
+        try (FileWriter fw = new FileWriter(filePath)){
             Collection<User> values = users.values();
             String json = gson.toJson(values);
             fw.write(json);
-            fw.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

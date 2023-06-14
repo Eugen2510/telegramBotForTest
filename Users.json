@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": 555696079,
+    "bank": "NBU",
+    "currencyUSD": "USD",
+    "currencyEUR": "EUR",
+    "numOfDecimal": 3,
+    "notificationTime": "16"
+  },
+  {
+    "id": 783226974,
+    "bank": "MonoBank",
+    "currencyEUR": "EUR",
+    "numOfDecimal": 3,
+    "notificationTime": "9"
+  }
+]

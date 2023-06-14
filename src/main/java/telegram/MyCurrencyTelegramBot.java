@@ -14,6 +14,7 @@ import telegram.schedule.ScheduledMessagesSender;
 import telegram.user_data.UsersDataGetter;
 import telegram.user_data.UsersDataSaver;
 
+
 import java.util.Map;
 
 
@@ -31,8 +32,6 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
 
         Thread sendMessage = new Thread(() -> ScheduledMessagesSender.runSending(users,this));
         sendMessage.start();
-        //не работает
-        Runtime.getRuntime().addShutdownHook(new Thread(this::saveData));
 
 
     }
@@ -45,10 +44,6 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
     public String getBotToken() {
 
         return BotConstants.BOT_TOKEN;
-    }
-
-    public static Map<Long, User> getUsers() {
-        return users;
     }
 
     @Override
@@ -65,7 +60,6 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
                 users.put(userId, user);
             }
             user = users.get(userId);
-            UsersDataSaver.saveUsers("Users.json", users);
         }
 
         if (update.hasCallbackQuery()){
@@ -123,7 +117,7 @@ public class MyCurrencyTelegramBot extends TelegramLongPollingCommandBot {
 
     }
 
-    private void saveData(){
+    public  void saveData(){
         UsersDataSaver.saveUsers("Users.json", users);
     }
 

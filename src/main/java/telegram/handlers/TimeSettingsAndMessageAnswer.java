@@ -2,7 +2,6 @@ package telegram.handlers;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import telegram.commands.StartCommand;
 import telegram.customer.User;
 
 public class TimeSettingsAndMessageAnswer {
@@ -25,7 +24,7 @@ public class TimeSettingsAndMessageAnswer {
             return message;
         }
 
-        if (isInt < 9 || isInt > 18){
+        if (isInt < 9 || isInt > 23){
             text = "Нажаль в обраний вами час банки не працюють. Оберіть час з клавіатури нижче:";
             message.setText(text);
         }else {

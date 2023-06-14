@@ -53,7 +53,6 @@ public class MonoBankCurrencyService implements CurrencyService {
     public double getRateSell(Currency currency) {
 
         checkTimeInterval();
-
         return monoBankCurrencyList.stream()
                 .filter(it -> it.getCurrency() == currency)
                 .filter(it -> it.getBaseCurrency() == Currency.UAH)
